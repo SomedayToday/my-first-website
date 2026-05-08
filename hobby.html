@@ -202,6 +202,15 @@
                 padding: 8px 12px;
             }
         }
+    /* Активный пункт меню */
+.icon-menu a.active, .icon-menu button.active {
+    color: var(--text);
+    font-weight: bold;
+    border-bottom: 3px solid var(--text);
+    transform: scale(1.05);
+    pointer-events: none;
+    opacity: 1;
+}
     </style>
 </head>
 <body>
@@ -230,9 +239,9 @@
                     🏠
                     <span>Главная</span>
                 </a>
-                <a href="hobby.html" title="Мои увлечения">
-                    🎸
-                    <span>Увлечения</span>
+                <a href="hobby.html" title="Мои увлечения" class="active">
+    🎸
+    <span>Увлечения</span>
                 </a>
                 <a href="https://github.com/dhruvapte26/planetes/pull/42" target="_blank" title="Мой Pull Request">
                     🚀
