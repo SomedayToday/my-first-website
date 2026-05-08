@@ -1,54 +1,284 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Привет, Someday!</title>
-    <!-- Подключаем классный шрифт с Google Fonts -->
+    <!-- Подключаем шрифт Montserrat -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== Базовые переменные (светлая тема по умолчанию) ===== */
+        :root {
+            --bg: lightyellow;
+            --card-bg: white;
+            --text: #333;
+            --text-secondary: #666;
+            --text-muted: #999;
+            --shadow: rgba(0,0,0,0.08);
+            --btn-bg: #2ea44f;
+            --btn-text: white;
+            --hr-color: #eee;
+        }
+
+        /* ===== Тёмная тема ===== */
+        body.dark {
+            --bg: #1e1e2f;
+            --card-bg: #2a2a3d;
+            --text: #e0e0e0;
+            --text-secondary: #aaa;
+            --text-muted: #888;
+            --shadow: rgba(0,0,0,0.4);
+            --btn-bg: #4caf50;
+            --btn-text: #1e1e2f;
+            --hr-color: #444;
+        }
+
+        /* ===== Общие стили ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            font-family: 'Montserrat', sans-serif;
+            transition: background-color 0.3s ease;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== Карточка ===== */
+        .card {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--shadow);
+            text-align: center;
+            transition: background 0.3s, box-shadow 0.3s;
+            margin-bottom: 20px;
+        }
+
+        /* ===== Заголовок с анимацией ===== */
+        .animate-title {
+            animation: fadeSlide 1.2s ease-out;
+            color: var(--text);
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== Текст ===== */
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        p, a {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .muted {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: 1px solid var(--hr-color);
+            transition: border-color 0.3s;
+        }
+
+        /* ===== Кнопка PR ===== */
+        .btn-pr {
+            display: inline-block;
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* ===== Меню иконок ===== */
+        .icon-menu {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .icon-menu a, .icon-menu button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: transform 0.2s, color 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: var(--card-bg);
+            padding: 10px 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px var(--shadow);
+            transition: background 0.3s, box-shadow 0.3s, color 0.3s;
+        }
+
+        .icon-menu a span, .icon-menu button span {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .icon-menu a:hover, .icon-menu button:hover {
+            transform: scale(1.07);
+            color: var(--text);
+        }
+
+        /* ===== Переключатель темы ===== */
+        .theme-toggle {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .theme-toggle button {
+            background: var(--card-bg);
+            border: none;
+            font-size: 22px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px var(--shadow);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .theme-toggle button:hover {
+            transform: scale(1.07);
+        }
+
+        /* ===== Мобильная адаптация ===== */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .card {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .icon-menu {
+                gap: 10px;
+            }
+
+            .icon-menu a, .icon-menu button {
+                font-size: 20px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
 </head>
-<body style="background-color: lightyellow; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif;">
+<body>
+    <!-- Переключатель темы -->
+    <div class="container">
+        <div class="theme-toggle">
+            <button id="themeToggle" aria-label="Переключить тему" title="Сменить тему">🌓</button>
+        </div>
 
-    <!-- Карточка -->
-    <div style="
-        max-width: 500px;
-        margin: 80px auto;
-        background: white;
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-        text-align: center;
-    ">
-        <h1 style="color: #333; font-weight: 700;">🚀 Мой первый сайт на GitHub!</h1>
-        <p style="color: #666; font-size: 18px; line-height: 1.6;">
-        </p>
-        <p style="color: #999; font-size: 14px;">
-            Ник: <strong>SomedayToday</strong>
-        </p>
-        <hr style="margin: 20px 0; border: 1px solid #eee;">
+        <!-- Основная карточка -->
+        <div class="card">
+            <h1 class="animate-title">🚀 Мой первый сайт на GitHub!</h1>
+            <p>Меня зовут SomedayToday, и я только что запустил эту страницу.</p>
+            <p class="muted">Ник: <strong>SomedayToday</strong></p>
 
-<a href="hobby.html" style="color: #666; text-decoration: none;">Мои увлечения ➡</a>
-   <!-- Блок "Мой вклад в Open Source" -->
-<div style="
-    max-width: 500px;
-    margin: 40px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    text-align: center;
-">
-    <h2 style="color: #333; font-size: 22px; margin-top: 0;">🌟 Мой первый вклад в Open Source</h2>
-    <p style="color: #666; font-size: 16px; line-height: 1.6;">
-        Добавил разговорник по транспорту на русском языке с транслитерацией.
-    </p>
-    <a href="https://github.com/dhruvapte26/planetes/pull/42"
-       style="display: inline-block; background: #2ea44f; color: white; padding: 12px 24px;
-              border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 10px;">
-        🔗 Посмотреть Pull Request
-    </a>
-    <p style="color: #999; font-size: 13px; margin-top: 15px;">
-        Сделано с заботой о путешественниках ✨
-    </p>
+            <hr>
+
+            <!-- Меню иконок -->
+            <div class="icon-menu">
+                <a href="index.html" title="Главная">
+                    🏠
+                    <span>Главная</span>
+                </a>
+                <a href="hobby.html" title="Мои увлечения">
+                    🎸
+                    <span>Увлечения</span>
+                </a>
+                <a href="https://github.com/dhruvapte26/planetes/pull/42" target="_blank" title="Мой Pull Request">
+                    🚀
+                    <span>PR</span>
+                </a>
+                <button id="themeToggleInCard" title="Сменить тему">
+                    🌓
+                    <span>Тема</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Блок "Мой вклад в Open Source" (отдельная карточка) -->
+        <div class="card">
+            <h2 style="font-size: 22px; margin-top: 0; color: var(--text);">🌟 Мой первый вклад в Open Source</h2>
+            <p style="margin: 10px 0;">
+                Добавил разговорник по транспорту на русском языке с транслитерацией.
+            </p>
+            <a href="https://github.com/dhruvapte26/planetes/pull/42" target="_blank" class="btn-pr">
+                🔗 Посмотреть Pull Request
+            </a>
+            <p class="muted" style="margin-top: 12px;">
+                Сделано с заботой о путешественниках ✨
+            </p>
+        </div>
     </div>
 
+    <!-- Скрипт для переключения темы и сохранения настроек -->
+    <script>
+        (function() {
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            const themeToggleInCard = document.getElementById('themeToggleInCard');
+
+            // Применяем сохранённую тему
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark');
+            }
+
+            function switchTheme() {
+                body.classList.toggle('dark');
+                // Сохраняем выбор
+                if (body.classList.contains('dark')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+
+            themeToggle.addEventListener('click', switchTheme);
+            themeToggleInCard.addEventListener('click', switchTheme);
+        })();
+    </script>
 </body>
 </html>
