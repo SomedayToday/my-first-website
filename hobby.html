@@ -1,31 +1,277 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SomedayToday — Увлечения</title>
+    <!-- Подключаем шрифт Montserrat -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== Базовые переменные (светлая тема по умолчанию) ===== */
+        :root {
+            --bg: lightyellow;
+            --card-bg: white;
+            --text: #333;
+            --text-secondary: #666;
+            --text-muted: #999;
+            --shadow: rgba(0,0,0,0.08);
+            --hr-color: #eee;
+        }
+
+        /* ===== Тёмная тема ===== */
+        body.dark {
+            --bg: #1e1e2f;
+            --card-bg: #2a2a3d;
+            --text: #e0e0e0;
+            --text-secondary: #aaa;
+            --text-muted: #888;
+            --shadow: rgba(0,0,0,0.4);
+            --hr-color: #444;
+        }
+
+        /* ===== Общие стили ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            font-family: 'Montserrat', sans-serif;
+            transition: background-color 0.3s ease;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== Карточка ===== */
+        .card {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--shadow);
+            text-align: center;
+            transition: background 0.3s, box-shadow 0.3s;
+            margin-bottom: 20px;
+        }
+
+        /* ===== Заголовок с анимацией ===== */
+        .animate-title {
+            animation: fadeSlide 1.2s ease-out;
+            color: var(--text);
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== Текст ===== */
+        h1, h2 {
+            color: var(--text);
+        }
+
+        p, a {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .muted {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: 1px solid var(--hr-color);
+            transition: border-color 0.3s;
+        }
+
+        /* ===== Меню иконок ===== */
+        .icon-menu {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .icon-menu a, .icon-menu button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: var(--card-bg);
+            padding: 10px 16px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px var(--shadow);
+            transition: background 0.3s, box-shadow 0.3s, color 0.3s, transform 0.2s;
+        }
+
+        .icon-menu a span, .icon-menu button span {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .icon-menu a:hover, .icon-menu button:hover {
+            transform: scale(1.07);
+            color: var(--text);
+        }
+
+        /* ===== Увлечения — иконки-эмодзи слева от текста ===== */
+        .hobby-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            text-align: left;
+            display: inline-block;
+        }
+
+        .hobby-list li {
+            font-size: 18px;
+            margin: 12px 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hobby-list li span {
+            font-size: 24px;
+        }
+
+        /* ===== Переключатель темы ===== */
+        .theme-toggle {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .theme-toggle button {
+            background: var(--card-bg);
+            border: none;
+            font-size: 22px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px var(--shadow);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .theme-toggle button:hover {
+            transform: scale(1.07);
+        }
+
+        /* ===== Мобильная адаптация ===== */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .card {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .icon-menu {
+                gap: 10px;
+            }
+
+            .icon-menu a, .icon-menu button {
+                font-size: 20px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
 </head>
-<body style="background-color: lightyellow; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif;">
+<body>
+    <!-- Переключатель темы -->
+    <div class="container">
+        <div class="theme-toggle">
+            <button id="themeToggle" aria-label="Переключить тему" title="Сменить тему">🌓</button>
+        </div>
 
-    <div style="
-        max-width: 500px;
-        margin: 80px auto;
-        background: white;
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-        text-align: center;
-    ">
-        <h1 style="color: #333;">😎 Мои увлечения</h1>
+        <!-- Карточка с увлечениями -->
+        <div class="card">
+            <h1 class="animate-title">😎 Мои увлечения</h1>
 
-        <p>🎸 Играю на гитаре</p>
-        <p>📚 Читаю фантастику</p>
-        <p>☕ Коллекционирую кружки</p>
-        <p>🏃 Бегаю по утрам</p>
+            <ul class="hobby-list">
+                <li><span>🎸</span> Играю на гитаре</li>
+                <li><span>📚</span> Читаю фантастику</li>
+                <li><span>☕</span> Коллекционирую кружки</li>
+                <li><span>🏃</span> Бегаю по утрам</li>
+            </ul>
 
-        <hr style="margin: 20px 0; border: 1px solid #eee;">
+            <hr>
 
-        <a href="index.html" style="color: #666; text-decoration: none;">⬅ На главную</a>
+            <!-- Меню иконок -->
+            <div class="icon-menu">
+                <a href="index.html" title="Главная">
+                    🏠
+                    <span>Главная</span>
+                </a>
+                <a href="hobby.html" title="Мои увлечения">
+                    🎸
+                    <span>Увлечения</span>
+                </a>
+                <a href="https://github.com/dhruvapte26/planetes/pull/42" target="_blank" title="Мой Pull Request">
+                    🚀
+                    <span>PR</span>
+                </a>
+                <button id="themeToggleInCard" title="Сменить тему">
+                    🌓
+                    <span>Тема</span>
+                </button>
+            </div>
+        </div>
     </div>
 
+    <!-- Скрипт для переключения темы и синхронизации с главной -->
+    <script>
+        (function() {
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            const themeToggleInCard = document.getElementById('themeToggleInCard');
+
+            // Применяем сохранённую тему
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark');
+            }
+
+            function switchTheme() {
+                body.classList.toggle('dark');
+                // Сохраняем выбор в localStorage
+                if (body.classList.contains('dark')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+
+            themeToggle.addEventListener('click', switchTheme);
+            themeToggleInCard.addEventListener('click', switchTheme);
+        })();
+    </script>
 </body>
 </html>
